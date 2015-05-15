@@ -2,9 +2,80 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Chatty: Real time Chat App</title>
+    <!--<style>-->
+        <!--*{-->
+             <!--margin: 0;-->
+             <!--padding: 0;-->
+             <!--box-sizing: border-box;-->
+         <!--}-->
+        <!--body { font: 13px Helvetica, Arial;-->
+        <!--}-->
+        <!--form {-->
+            <!--background: #2c3e50;-->
+            <!--padding: 3px;-->
+            <!--position: fixed;-->
+            <!--bottom: 0;-->
+            <!--width: 100%;-->
+        <!--}-->
+        <!--form input {-->
+            <!--border: 0;-->
+            <!--padding: 10px;-->
+            <!--width: 90%;-->
+            <!--margin-right: .5%;-->
+        <!--}-->
+        <!--form button {-->
+            <!--color: #fff;-->
+            <!--width: 9%;-->
+            <!--background: #22bba1;-->
+            <!--border: none;-->
+            <!--padding: 10px;-->
+        <!--}-->
+        <!--#messages {-->
+            <!--list-style-type: none;-->
+            <!--margin: 0; padding: 0;-->
+        <!--}-->
+        <!--#messages li {-->
+            <!--padding: 5px 10px;-->
+        <!--}-->
+        <!--#messages li:nth-child(odd) {-->
+            <!--background: #ecf0f1;-->
+        <!--}-->
+    <!--</style>-->
+    <link rel="stylesheet" href="styles/style.css"/>
 </head>
 <body>
-<h1>Realtime chat application</h1>
+
+
+<ul id="messages">
+    <form action="">
+        <input id="username" type="text" placeholder="Enter username:"/>
+        <input id="m" autocomplete="off"/>
+        <button>SEND</button>
+    </form>
+</ul>
+
+
+
+
+
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="/socket.io/socket.io.js" ></script>
+
+<script>
+    var socket = io();
+    $('form').submit(function(){
+        socket.emit('chat message', $('#username').val() + ":" + " " +  $('#m').val());
+        $('#m').val(''), $('#username').val('');
+        return false;
+    });
+
+    socket.on('chat message', function(msg){
+        $('#messages').append($('<li>').text( msg ));
+    });
+</script>
+
+
 </body>
 </html>
